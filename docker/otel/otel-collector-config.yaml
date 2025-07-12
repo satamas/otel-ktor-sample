@@ -1,0 +1,36 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+exporters:
+  debug:
+    verbosity: detailed
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+connectors:
+  count:
+    logs:
+      my.log.count:
+        description: The number of logs from each environment.
+        attributes:
+          - key: error_type
+            severity_number: unspecified_environment
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [debug]
+    metrics:
+      receivers: [otlp,count]
+      processors: []
+      exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: []
+      exporters: [count,debug]

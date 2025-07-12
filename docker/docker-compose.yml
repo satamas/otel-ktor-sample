@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.45.2
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-lifecycle
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    ports:
+      - "9090:9090"
+    networks:
+      - back-tier
+    restart: always
+
+  tempo:
+    image: grafana/tempo:2.7.1
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./tempo/tempo.yml:/etc/tempo.yaml
+    ports:
+      - "3200:3200"  # tempo
+      - "4317:4317" # opentelemetry
+    restart: on-failure
+    networks:
+      - back-tier
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - back-tier
+      - front-tier
+    restart: always
+
+
+volumes:
+  prometheus_data: { }
+  grafana_data: { }
+
+networks:
+  front-tier:
+  back-tier:
