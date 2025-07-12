@@ -43,3 +43,5 @@ Let's check what we will see in the `Grafana` after running the server (with Doc
 1) Go to http://localhost:3000, login with admin/admin.
 2) Check created metrics either in explore section by selecting prometheus datasource or in one preconfigured dashboard with http traffic stats
 3) Check created traces in explore section by selecting Tempo datasource and switching to search tab
+
+**Note:** OTEL agent is in the separate branch otel-agent
