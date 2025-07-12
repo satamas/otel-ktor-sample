@@ -34,10 +34,10 @@ suspend fun doRequests(client: HttpClient) {
     client.get("/opentelemetry/tracer")
 
     // For this request you can see several events only for server trace in the Jaeger UI
-    client.ws("/opentelemetry/websocket") {
-        send(Frame.Text("Hello, world!"))
-        repeat(10) {
-            send(incoming.receive())
-        }
-    }
+//    client.ws("/opentelemetry/websocket") {
+//        send(Frame.Text("Hello, world!"))
+//        repeat(10) {
+//            send(incoming.receive())
+//        }
+//    }
 }

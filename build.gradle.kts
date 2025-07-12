@@ -27,6 +27,10 @@ project(":client").setEnvironmentVariablesForOpenTelemetry()
 fun Project.setEnvironmentVariablesForOpenTelemetry() {
     tasks.withType<JavaExec> {
         environment("OTEL_METRICS_EXPORTER", "prometheus")
-        environment("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317/")
+        environment("OTEL_LOGS_EXPORTER", "none")
+        environment("OTEL_TRACES_EXPORTER", "otlp")
+        environment("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc")
+        environment("PYROSCOPE_APPLICATION_NAME", "my-app")
+        environment("PYROSCOPE_SERVER_ADDRESS", "http://localhost:4040")
     }
 }

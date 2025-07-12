@@ -4,21 +4,12 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import io.ktor.websocket.*
-import io.opentelemetry.api.trace.Span
-import kotlinx.coroutines.delay
 import opentelemetry.ktor.example.CUSTOM_HEADER
 import opentelemetry.ktor.example.CUSTOM_METHOD
 import opentelemetry.ktor.example.CUSTOM_METHOD_NOT_KNOWN
-import opentelemetry.ktor.example.plugins.opentelemetry.serviceName
-import opentelemetry.ktor.example.plugins.opentelemetry.setupPyroscope
-import opentelemetry.ktor.example.plugins.opentelemetry.setupServerTelemetry
 
 fun Application.configureRouting() {
     install(WebSockets)
-
-    val openTelemetry = setupServerTelemetry()
-    setupPyroscope()
 
     routing {
         get("/") {
@@ -65,39 +56,39 @@ fun Application.configureRouting() {
         }
 
 
-        val tracer = openTelemetry.getTracer(serviceName)
-        val meter = openTelemetry.getMeter(serviceName)
+//        val tracer = openTelemetry.getTracer(serviceName)
+//        val meter = openTelemetry.getMeter(serviceName)
         route("/opentelemetry") {
             get("/tracer") {
-                val span = tracer.spanBuilder("/trace doWork").startSpan()
-                try {
-                    span.makeCurrent().use { _ ->
-                        Span.current().addEvent("Starting the work")
-                        call.respondText { "For this request you can see several spans and events in the Jaeger UI" }
-                        Span.current().addEvent("Finished working")
-                    }
-                } finally {
-                    span.end()
-                }
+//                val span = tracer.spanBuilder("/trace doWork").startSpan()
+//                try {
+//                    span.makeCurrent().use { _ ->
+//                        Span.current().addEvent("Starting the work")
+//                        call.respondText { "For this request you can see several spans and events in the Jaeger UI" }
+//                        Span.current().addEvent("Finished working")
+//                    }
+//                } finally {
+//                    span.end()
+//                }
             }
 
 
             webSocket("/websocket") {
-                val span = tracer.spanBuilder("websocket-server").startSpan()
-                val counter = meter.counterBuilder("websocket-server").build()
-                try {
-                    repeat(10) {
-                        span.makeCurrent().use { _ ->
-                            Span.current().addEvent("$it")
-                            val frame = incoming.receive() as Frame.Text
-                            counter.add(1)
-                            outgoing.send(frame)
-                        }
-                    }
-                } finally {
-                    delay(100)
-                    span.end()
-                }
+//                val span = tracer.spanBuilder("websocket-server").startSpan()
+//                val counter = meter.counterBuilder("websocket-server").build()
+//                try {
+//                    repeat(10) {
+//                        span.makeCurrent().use { _ ->
+//                            Span.current().addEvent("$it")
+//                            val frame = incoming.receive() as Frame.Text
+//                            counter.add(1)
+//                            outgoing.send(frame)
+//                        }
+//                    }
+//                } finally {
+//                    delay(100)
+//                    span.end()
+//                }
             }
         }
     }

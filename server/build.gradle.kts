@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version "2.1.20"
     id("io.ktor.plugin") version "3.2.1"
     id("application")
+    id("com.ryandens.javaagent-application") version "0.8.0"
 }
 
 application {
@@ -23,7 +24,6 @@ dependencies {
     implementation("io.ktor:ktor-server-websockets:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
-    implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-3.0:$opentelemetry_version-alpha")
-    implementation("io.opentelemetry:opentelemetry-exporter-prometheus:1.49.0-alpha")
-    implementation("io.pyroscope:agent:2.0.0")
+    javaagent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.17.0")
+    javaagent("io.pyroscope:agent:2.0.0")
 }
