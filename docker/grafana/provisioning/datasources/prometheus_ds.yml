@@ -15,3 +15,8 @@ datasources:
       httpMethod: GET
       serviceMap:
         datasourceUid: prometheus
+  - name: Grafana Pyroscope
+    type: grafana-pyroscope-datasource
+    url: http://pyroscope:4040
+    jsonData:
+      minStep: '15s'

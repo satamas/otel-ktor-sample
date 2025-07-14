@@ -28,8 +28,15 @@ services:
     networks:
       - back-tier
 
+  pyroscope:
+    image: grafana/pyroscope:latest
+    ports:
+      - "4040:4040"
+    networks:
+      - back-tier
+
   grafana:
-    image: grafana/grafana:10.4.2
+    image: grafana/grafana:11.6.3
     depends_on:
       - prometheus
     ports:

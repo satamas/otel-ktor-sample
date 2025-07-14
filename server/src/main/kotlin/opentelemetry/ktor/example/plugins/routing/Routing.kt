@@ -11,12 +11,14 @@ import opentelemetry.ktor.example.CUSTOM_HEADER
 import opentelemetry.ktor.example.CUSTOM_METHOD
 import opentelemetry.ktor.example.CUSTOM_METHOD_NOT_KNOWN
 import opentelemetry.ktor.example.plugins.opentelemetry.serviceName
+import opentelemetry.ktor.example.plugins.opentelemetry.setupPyroscope
 import opentelemetry.ktor.example.plugins.opentelemetry.setupServerTelemetry
 
 fun Application.configureRouting() {
     install(WebSockets)
 
     val openTelemetry = setupServerTelemetry()
+    setupPyroscope()
 
     routing {
         get("/") {

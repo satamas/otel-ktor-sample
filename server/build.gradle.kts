@@ -25,4 +25,5 @@ dependencies {
 
     implementation("io.opentelemetry.instrumentation:opentelemetry-ktor-3.0:$opentelemetry_version-alpha")
     implementation("io.opentelemetry:opentelemetry-exporter-prometheus:1.49.0-alpha")
+    implementation("io.pyroscope:agent:2.0.0")
 }
